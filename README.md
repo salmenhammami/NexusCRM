@@ -1,58 +1,68 @@
-# NexusCRM
-
-A modern, full-stack Customer Relationship Management (CRM) platform designed to streamline client workflows, employee supervision, and task tracking.
 <p align="center">
-  <img src="assets/logo.png" alt="NexusCRM Logo" width="380" />
+  <img src="assets/logo.png" alt="NexusCRM" width="300" />
 </p>
 
-## Overview
+# NexusCRM
 
-**NexusCRM** centralizes business interactions, client pipelines, and internal team tasks into one unified dashboard. Built with security and scalability in mind, it simplifies customer lifecycle tracking while providing fine-grained access control across team roles.
+A CRM for small sales teams — clients, contacts, tasks, and a log of every
+interaction in one place.
 
-## Preview
+I built this during a one-month internship at OEM Engineering in Sfax. It was my
+first time shipping something end to end: four one-week sprints, tracked in Jira,
+from the UML diagrams to a running container.
 
-| Analytics & CRM Dashboard | Authentication Portal |
+| Dashboard | Login |
 | :---: | :---: |
-| ![NexusCRM Dashboard](assets/dashboard.png) | ![NexusCRM Login Screen](assets/login.png) |
+| ![Dashboard](assets/dashboard.png) | ![Login](assets/login.png) |
 
-## Key Features
+## What it does
 
-* **Client & Lead Management:** Organize contacts, track client lifecycles, and maintain detailed interaction histories.
-* **Multi-Factor Authentication & Security:** Secure access powered by JWT tokens, OTP-based 2FA via Brevo API, and strict Role-Based Access Control (RBAC).
-* **Task & Activity Tracking:** Assign tasks, set deadlines, and monitor team progress across active projects.
-* **Event-Driven Notifications:** Real-time updates and activity tracking powered by Django Signals.
+- Manage clients and their contacts, and keep a shared history of calls, meetings and emails
+- Log in with a password, then a one-time code sent to your inbox
+- Assign tasks with deadlines between managers and employees
+- Get notified when records change
+- See activity at a glance on a stats dashboard
+- Switch the whole interface between English and French
 
-## Tech Stack
+Access is split three ways — super-admin, admin and employee — and each role only
+sees what it should.
 
-* **Backend:** Django REST Framework (Python)
-* **Frontend:** React 19 (Vite)
-* **Database:** MySQL
-* **Security:** JWT Authentication, Brevo OTP API
-* **DevOps & Cloud:** Docker (Nginx, Gunicorn), Railway
+**Built with** Django REST Framework, React 19, MySQL, JWT, Docker, deployed on Railway.
 
-## Getting Started
+The front end started from the [Datta Able](https://github.com/codedthemes/datta-able-free-react-admin-template)
+admin template (MIT). The layout and charts come from there; the API, the login flow,
+the translations and every CRM screen are mine.
 
-### Prerequisites
-* Python 3.10+
-* Node.js & npm
-* MySQL Server / Docker
+## Running it
 
-### Quick Setup
+You'll need Python 3.11+, Node 18+, and MySQL (optional — it falls back to SQLite).
 
 ```bash
-# Clone the repository
-git clone https://github.com/HammamiSalmen/NexusCRM.git
-cd NexusCRM
+git clone https://github.com/salmenhammami/NexusCRM.git
 
-# Backend Setup
-cd backend
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# API
+cd NexusCRM/backend
+python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env          # add your DB and SMTP settings
 python manage.py migrate
 python manage.py runserver
 
-# Frontend Setup (in a new terminal)
+# Web app, in another terminal
 cd ../frontend
+cp .env.example .env
 npm install
-npm run dev
+npm start
+```
+
+The OTP emails go out over SMTP, so the login won't complete until you fill in the
+email settings in `backend/.env`.
+
+## Still to do
+
+Tests, a tighter CORS policy, and a CI workflow. The two-step login is the first
+thing I'd write tests for.
+
+---
+
+**Salmen Hammami** · [GitHub](https://github.com/salmenhammami) · [LinkedIn](https://www.linkedin.com/in/salmenhammami/)
