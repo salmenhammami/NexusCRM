@@ -11,7 +11,6 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = "django-insecure-hwn8+)one1u99^#%wtisic4&$#vsa@yr&(-yt(%t2)(a6%q(-9"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True") == "True"
@@ -40,7 +39,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),  # i can change those
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
@@ -160,8 +159,10 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWS_CREDENTIALS = True  # i can change those
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000", os.getenv("FRONTEND_URL"),
+]
+CORS_ALLOW_CREDENTIALS = True
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.getenv("EMAIL_HOST")
